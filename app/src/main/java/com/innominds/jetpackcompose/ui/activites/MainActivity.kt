@@ -70,8 +70,6 @@ fun RenderCardView() {
                 .height(300.dp)
                 .padding(15.dp),
             shape = RoundedCornerShape(corner = CornerSize(15.dp)),
-//            elevation = CardElevation(4.dp)
-//            elevation = 4.dp
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_user),
