@@ -6,8 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,18 +19,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardElevation
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,9 +53,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.innominds.jetpackcompose.R
+import com.innominds.jetpackcompose.ui.models.Users
 import com.innominds.jetpackcompose.ui.theme.JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val TAG: String = "JetpackCompose"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -67,6 +77,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RenderCardView() {
+    val btnClickState = remember {
+        mutableStateOf(value = false)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,41 +88,61 @@ fun RenderCardView() {
         ) {
         Card(
 
-//            elevation = CardElevation(4.dp)
-//            elevation = 4.dp,
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 4.dp
+            ),
             modifier = Modifier
                 .width(200.dp)
                 .height(390.dp)
                 .padding(12.dp),
-
-//            colors = CardDefaults.cardColors(),
-            shape = RoundedCornerShape(corner = CornerSize(25.dp)),
+            shape = RoundedCornerShape(corner = CornerSize(15.dp)),
         ) {
 
             Column(
-                modifier = Modifier.height(300.dp),
+                modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CreateProfile()
 
-                Divider()
+                val modifier = Modifier
+                    .size(150.dp)
+                    .padding(5.dp)
+
+                CreateProfile(modifier, R.drawable.ic_user)
+
+                UserDivider()
 
                 CreateInfo()
 
-                Button(
-                    shape = RectangleShape,
-//                    border = BorderStroke(width = 5.dp, ),
-                    onClick = {
-                   Log.d("JetpackCompose", "Portfolio button Click...")
-                    }
-                ) {
-                    Text(text = "Portfolio",
-                        style = MaterialTheme.typography.labelLarge)
+                BtnPortfolio(btnClickState)
+
+                if (btnClickState.value) {
+                    Log.d("JetpackCompose", "Button Click == ${btnClickState.value}")
+                    CreateContent()
+                } else {
+                    Log.d("JetpackCompose", "Button Click == ${btnClickState.value}")
+                    Box { }
                 }
 
             }
         }
+    }
+}
+
+@Composable
+private fun BtnPortfolio(btnClickState: MutableState<Boolean>) {
+    Button(
+        shape = RectangleShape,
+//                    border = BorderStroke(width = 5.dp, ),
+        onClick = {
+            Log.d("JetpackCompose", "Portfolio button Click...")
+            btnClickState.value = !btnClickState.value
+        }
+    ) {
+        Text(
+            text = "Portfolio",
+            style = MaterialTheme.typography.labelLarge
+        )
     }
 }
 
@@ -148,7 +181,7 @@ private fun CreateInfo() {
 }
 
 @Composable
-private fun Divider() {
+private fun UserDivider() {
     Divider(
         thickness = 2.dp,
         modifier = Modifier
@@ -158,22 +191,160 @@ private fun Divider() {
 }
 
 @Composable
-private fun CreateProfile() {
+private fun CreateProfile(modifier: Modifier, userLogo: Int) {
     Surface(
-        modifier = Modifier
-            .size(150.dp)
-            .padding(5.dp),
+        modifier = modifier,
         shape = CircleShape,
         border = BorderStroke(4.dp, Color.Gray),
         shadowElevation = 4.dp,
-        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+//        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_user),
+            painter = painterResource(id = userLogo),
             contentDescription = stringResource(id = R.string.app_name),
             modifier = Modifier.size(130.dp),
             contentScale = ContentScale.Crop
         )
+    }
+}
+
+
+@Preview()
+@Composable
+fun Content() {
+    CreateContent()
+}
+
+@Composable
+fun CreateContent() {
+    Log.d("JetpackCompose", "Inside Create Content Function..")
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(5.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(3.dp),
+            shape = RoundedCornerShape(6.dp),
+            border = BorderStroke(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.surface
+            )
+        ) {
+            val list = users()
+
+            PortFolios(data = list)
+        }
+    }
+}
+
+@Composable
+private fun users(): ArrayList<Users> {
+    val list = ArrayList<Users>()
+    UsersList(list)
+    return list
+}
+
+@Composable
+private fun UsersList(list: ArrayList<Users>) {
+    list.add(
+        Users(
+            R.drawable.ic_user, "Karthik Peddamallu", "Associate Manager",
+        )
+    )
+
+    list.add(
+        Users(
+            R.drawable.ic_user, "Srikanth Gajulla", "Principle Engineer"
+        )
+    )
+    list.add(
+        Users(
+            R.drawable.ic_user, "Karthik Tiggura", "Senior Engineer"
+        )
+    )
+    list.add(
+        Users(
+            R.drawable.ic_user, "Phani Gajulla", "Associate Manager"
+        )
+    )
+    list.add(
+        Users(
+            R.drawable.ic_user, "Mamatha Sheelam", "Principle Engineer"
+        )
+    )
+    list.add(
+        Users(
+            R.drawable.ic_user,
+            "Purva Suresh Chaudhri",
+            "Senior Engineer"
+        )
+    )
+    list.add(
+        Users(
+            R.drawable.ic_user,
+            "Sudhakar Pachava",
+            "Senior Engineer",
+        )
+    )
+}
+
+@Composable
+fun PortFolios(data: List<Users>) {
+    LazyColumn {
+        items(data) { item: Users ->
+
+            Card(
+                shape = RectangleShape,
+                modifier = Modifier
+                    .padding(13.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 4.dp
+                ),
+                border = BorderStroke(8.dp, color = MaterialTheme.colorScheme.surface),
+//                colors = CardColors(containerColor = MaterialTheme.colorScheme.surface)
+
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+
+                ) {
+
+                    val modifier = Modifier
+                        .size(60.dp)
+                        .padding(8.dp)
+
+                    CreateProfile(modifier, item.userLogo)
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Text(
+                            text = item.userName,
+                            fontWeight = FontWeight.Bold,
+//                            modifier = Modifier
+//                                .padding(start = 10.dp)
+                        )
+                        Text(
+                            text = item.userRole,
+                            fontWeight = FontWeight.Normal,
+//                            modifier = Modifier
+//                                .padding(start = 10.dp)
+                        )
+                    }
+                }
+//                UserDivider()
+            }
+        }
     }
 }
 
@@ -211,8 +382,7 @@ fun Greeting() {
                     start = 20.dp,
                     end = 20.dp,
                     top = 20.dp,
-
-                    )
+                )
                 .wrapContentSize(), onClick = { /*TODO*/ }) {
 
             Text(
@@ -259,7 +429,7 @@ val appFontsFamily = FontFamily(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun JetpackUserProfile() {
     JetpackComposeTheme {
 //        Greeting()
         RenderCardView()
