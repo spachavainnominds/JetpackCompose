@@ -1,4 +1,4 @@
-package com.innominds.jetpackcompose.ui.activites
+package com.innominds.jetpackcompose.ui.activites.ui.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -197,7 +196,7 @@ private fun CreateProfile(modifier: Modifier, userLogo: Int) {
         shape = CircleShape,
         border = BorderStroke(4.dp, Color.Gray),
         shadowElevation = 4.dp,
-//        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+        color = Color(245, 245, 245)//MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     ) {
         Image(
             painter = painterResource(id = userLogo),
