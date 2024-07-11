@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AttachMoney
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextField(
     modifier: Modifier = Modifier,
@@ -69,47 +67,23 @@ fun TextField(
             keyboardType = keyboardType,
             imeAction = imeAction
         ),
-
         )
-
-    /* OutlinedTextField(
-         value = valueState.value.toString(),
-         onValueChange = { value ->
-             valueState.value = value
-
-         },
-         placeholder = {
-             Text(text = hint, color = Color.LightGray)
-         },
-         modifier = modifier,
-         label = {
-             Text(text = label)
-         },
-         leadingIcon = {
-             Icon(
-                 imageVector = Icons.Rounded.AttachMoney,
-                 contentDescription = "Dollar Logo",
-                 tint = Color.Gray
-             )
-         },
-         trailingIcon = {
-             Icon(
-                 imageVector = Icons.Rounded.Clear,
-                 contentDescription = "Clear Logo",
-                 tint = Color.Gray
-             )
-         },
-         singleLine = isSingleLine,
-         textStyle = TextStyle(
-             fontSize = 18.sp,
-             color = MaterialTheme.colorScheme.onBackground
-         ),
-         enabled = enabled,
-         keyboardOptions = KeyboardOptions(
-             keyboardType = keyboardType,
-             imeAction = impAction
-         ),
-         impAction = impAction,
-         modifier = Modifier.padding(bottom = 10.dp, start = 10.dp, end = 10.dp),
-     )*/
 }
+/*
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomTopAppBar(
+    title: String,
+    actions: @Composable RowScope.() -> Unit,
+    onNavIconClick: () -> Unit
+) {
+    TopAppBar(
+        title = { Text(text = title) },
+        navigationIcon = {
+            IconButton(onClick = onNavIconClick) {
+                Icon(Icons.Default.AddHomeWork, contentDescription = null)
+            }
+        },
+        actions = actions
+    )
+}*/

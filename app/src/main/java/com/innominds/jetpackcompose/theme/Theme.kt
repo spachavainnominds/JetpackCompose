@@ -1,4 +1,4 @@
-package com.innominds.jetpackcompose.ui.theme
+package com.innominds.jetpackcompose.theme
 
 import android.app.Activity
 import android.os.Build

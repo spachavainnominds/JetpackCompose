@@ -16,15 +16,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = com.innominds.jetpackcompose.theme.Purple80,
+    secondary = com.innominds.jetpackcompose.theme.PurpleGrey80,
+    tertiary = com.innominds.jetpackcompose.theme.Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = com.innominds.jetpackcompose.theme.Purple40,
+    secondary = com.innominds.jetpackcompose.theme.PurpleGrey40,
+    tertiary = com.innominds.jetpackcompose.theme.Pink40
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -42,7 +42,7 @@ fun JetpackComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -64,7 +64,7 @@ fun JetpackComposeTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = com.innominds.jetpackcompose.theme.Typography,
         content = content
     )
 }

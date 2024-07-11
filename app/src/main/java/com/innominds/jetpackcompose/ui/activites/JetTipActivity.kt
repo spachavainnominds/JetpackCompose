@@ -1,4 +1,4 @@
-package com.innominds.jetpackcompose.ui.activites.ui.activities
+package com.innominds.jetpackcompose.ui.activites
 
 import android.os.Bundle
 import android.util.Log
@@ -41,12 +41,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.innominds.jetpackcompose.ui.activites.ui.theme.JetpackComposeTheme
+import androidx.navigation.NavController
+import com.innominds.jetpackcompose.theme.JetpackComposeTheme
 import com.innominds.jetpackcompose.utils.calcuateTotalTip
 import com.innominds.jetpackcompose.utils.calculateTotalPerPerson
 import com.innominds.jetpackcompose.widgets.RoundedIconButton
 
-class JeyTipActivity : ComponentActivity() {
+class JeyTipActivity(navController: NavController) : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -255,13 +256,9 @@ fun BillForm(
                 } else {
                     Box {}
                 }
-
-
             }
         }
     }
-
-
 }
 
 @Composable

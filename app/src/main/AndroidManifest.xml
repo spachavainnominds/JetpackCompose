@@ -13,18 +13,20 @@
         android:theme="@style/Theme.JetpackCompose"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activites.ui.activities.JeyTipActivity"
-            android:exported="true" >
+            android:name=".ui.activites.MainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home_screen"
+            android:theme="@style/Theme.JetpackCompose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activites.ListComposeActivity"/>
         <activity
-            android:name=".ui.activites.ui.activities.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.JetpackCompose">
+            android:name=".ui.activites.JeyTipActivity"
+            android:exported="true">
 
         </activity>
     </application>

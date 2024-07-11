@@ -1,5 +1,7 @@
 package com.innominds.jetpackcompose.utils
 
+import androidx.compose.ui.graphics.Color
+
 
 fun calcuateTotalTip(totalBill: Double, tipPercent: Int): Double {
 
@@ -15,4 +17,8 @@ fun calculateTotalPerPerson(
 ): Double {
     val bill = calcuateTotalTip(totalBill, tipPercent) + totalBill
     return (bill / splitBy)
+}
+
+fun getColor(colorString: String): Color {
+    return Color(android.graphics.Color.parseColor("#$colorString"))
 }

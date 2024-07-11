@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Jetpack Compose</string>
     <string name="title_activity_jey_tip">JeyTipActivity</string>
+    <string name="title_activity_component">ComponentActivity</string>
+    <string name="title_activity_components">ComponentsActivity</string>
+    <string name="title_activity_details_screen">DetailsScreen</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
 </resources>

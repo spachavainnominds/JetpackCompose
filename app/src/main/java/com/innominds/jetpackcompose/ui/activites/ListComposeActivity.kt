@@ -1,4 +1,4 @@
-package com.innominds.jetpackcompose.ui.activites.ui.activities
+package com.innominds.jetpackcompose.ui.activites
 
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +28,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -52,10 +53,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.innominds.jetpackcompose.R
+import com.innominds.jetpackcompose.theme.JetpackComposeTheme
 import com.innominds.jetpackcompose.ui.models.Users
-import com.innominds.jetpackcompose.ui.theme.JetpackComposeTheme
 
-class MainActivity : ComponentActivity() {
+class ListComposeActivity : ComponentActivity() {
 
     private val TAG: String = "JetpackCompose"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -181,10 +182,10 @@ private fun CreateInfo() {
 
 @Composable
 private fun UserDivider() {
-    Divider(
-        thickness = 2.dp,
+    HorizontalDivider(
         modifier = Modifier
             .padding(top = 10.dp),
+        thickness = 2.dp,
         color = Color.LightGray
     )
 }
@@ -205,13 +206,6 @@ private fun CreateProfile(modifier: Modifier, userLogo: Int) {
             contentScale = ContentScale.Crop
         )
     }
-}
-
-
-@Preview()
-@Composable
-fun Content() {
-    CreateContent()
 }
 
 @Composable
@@ -250,7 +244,7 @@ private fun users(): ArrayList<Users> {
 
 @Composable
 private fun UsersList(list: ArrayList<Users>) {
-    list.add(
+  /*  list.add(
         Users(
             R.drawable.ic_user, "Karthik Peddamallu", "Associate Manager",
         )
@@ -289,7 +283,7 @@ private fun UsersList(list: ArrayList<Users>) {
             "Sudhakar Pachava",
             "Senior Engineer",
         )
-    )
+    )*/
 }
 
 @Composable
