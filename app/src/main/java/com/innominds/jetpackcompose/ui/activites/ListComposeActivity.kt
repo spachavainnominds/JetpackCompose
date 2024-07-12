@@ -209,6 +209,11 @@ private fun CreateProfile(modifier: Modifier, userLogo: Int) {
 }
 
 @Composable
+fun Content() {
+    CreateContent()
+}
+
+@Composable
 fun CreateContent() {
     Log.d("JetpackCompose", "Inside Create Content Function..")
     Box(
@@ -244,7 +249,7 @@ private fun users(): ArrayList<Users> {
 
 @Composable
 private fun UsersList(list: ArrayList<Users>) {
-  /*  list.add(
+   /* list.add(
         Users(
             R.drawable.ic_user, "Karthik Peddamallu", "Associate Manager",
         )
@@ -315,7 +320,7 @@ fun PortFolios(data: List<Users>) {
                         .size(60.dp)
                         .padding(8.dp)
 
-                    CreateProfile(modifier, item.userLogo)
+                    CreateProfile(modifier, 0)
                     Column(
                         modifier = Modifier
                             .padding(8.dp)

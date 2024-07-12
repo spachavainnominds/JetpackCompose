@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,26 +30,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.innominds.jetpackcompose.R
 import com.innominds.jetpackcompose.theme.JetpackComposeTheme
 import com.innominds.jetpackcompose.ui.navigations.AppNavigationScreens
 import com.innominds.jetpackcompose.ui.screens.baseappbar.BaseAppBar
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 
+@OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun DetailsScreen(
     navController: NavController,
     name: String?,
     role: String?,
     email: String?,
+    logo: String?,
 ) {
     // A surface container using the 'background' color from the theme
     JetpackComposeTheme {
@@ -59,13 +61,18 @@ fun DetailsScreen(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(),
-            color = androidx.compose.material3.MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background
         ) {
+            // Decode from Base64
+            val decodedBytes: ByteArray = Base64.UrlSafe.decode(logo!!)
+            val decodedString: String = String(decodedBytes)
+
             MainScreen(
                 navController = navController,
                 name,
                 role,
-                email
+                email,
+                decodedString
             )
         }
     }
@@ -73,55 +80,15 @@ fun DetailsScreen(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavController?,
-               name: String?,
-               role: String?,
-               email: String?) {
+fun MainScreen(
+    navController: NavController?,
+    name: String?,
+    role: String?,
+    email: String?,
+    logo: String?
+) {
     BaseAppBar(appBarTitle = "User Details", navController = navController) {
-        RenderCardView(navController, name, role, email)
-    }
-}
-
-@Composable
-fun TopAppBar() {
-    Box {
-        androidx.compose.material.TopAppBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            backgroundColor = MaterialTheme.colorScheme.primary,
-            contentColor = Color.White,
-            elevation = 4.dp
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(id = R.string.app_name),
-                        modifier = Modifier
-                            .size(30.dp)
-                            .padding(5.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Text(
-                        text = "User Details",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(start = 10.dp)
-                    )
-                }
-            }
-        }
+        RenderCardView(navController, name, role, email, logo)
     }
 }
 
@@ -129,7 +96,7 @@ fun TopAppBar() {
 @Composable
 fun DetailsPreview() {
     JetpackComposeTheme {
-        MainScreen(navController = null,  "", role = "role", email = "")
+        MainScreen(navController = null,  "", role = "role", email = "", logo = "")
     }
 }
 
@@ -137,7 +104,8 @@ fun DetailsPreview() {
 fun RenderCardView(navController: NavController?,
                    name: String?,
                    role: String?,
-                   email: String?) {
+                   email: String?,
+                   logo: String?) {
     val btnClickState = remember {
         mutableStateOf(value = false)
     }
@@ -167,7 +135,7 @@ fun RenderCardView(navController: NavController?,
                     .size(150.dp)
                     .padding(5.dp)
 
-                CreateProfile(modifier, R.drawable.ic_user)
+                CreateProfile(modifier, logo)
 
                 UserDivider()
 
@@ -215,7 +183,7 @@ fun CreateInfo(name: String?, role: String?, email: String?) {
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        androidx.compose.material3.Text(
+        Text(
             text = name!!,
             fontSize = 24.sp,
             style = androidx.compose.material3.MaterialTheme.typography.headlineLarge,
@@ -234,8 +202,8 @@ fun CreateInfo(name: String?, role: String?, email: String?) {
         Text(
             text = email!!,
             fontSize = 18.sp,
-            style = androidx.compose.material3.MaterialTheme.typography.headlineSmall,
-            color = androidx.compose.material3.MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center
         )
     }
@@ -246,24 +214,24 @@ fun UserDivider() {
     HorizontalDivider(
         modifier = Modifier
             .padding(top = 10.dp),
-        thickness = 2.dp,
-        color = Color.LightGray
+        thickness = 1.dp,
+        color = Color(color = 0xFFFAFAFA.toInt())
     )
 }
 
 @Composable
-fun CreateProfile(modifier: Modifier, userLogo: Int) {
-    androidx.compose.material3.Surface(
+fun CreateProfile(modifier: Modifier, userLogo: String?) {
+    Surface(
         modifier = modifier,
         shape = CircleShape,
-        border = BorderStroke(4.dp, Color.Gray),
-        shadowElevation = 4.dp,
-        color = Color(245, 245, 245)//MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+        border = BorderStroke(1.dp, Color.Gray),
+//        shadowElevation = 4.dp,
+//        color = Color(245, 245, 245)//MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     ) {
         Image(
-            painter = painterResource(id = userLogo),
+            painter = rememberImagePainter(data = userLogo),
             contentDescription = stringResource(id = R.string.app_name),
-            modifier = Modifier.size(130.dp),
+            modifier = Modifier.size(180.dp),
             contentScale = ContentScale.Crop
         )
     }

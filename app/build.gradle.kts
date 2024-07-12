@@ -86,4 +86,7 @@ dependencies {
 
 //    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+//   imageDownloading
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
 }

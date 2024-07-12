@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -77,18 +80,22 @@ fun TopAppBar(appBarTitle: String, navController: NavController?) {
                         .padding(15.dp)
                 ) {
                     if (navController?.previousBackStackEntry != null) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(id = R.string.app_name),
-                            modifier = Modifier
-                                .size(30.dp)
-                                .padding(5.dp)
-                                .clickable(onClick = {
-                                    Log.e("JetpackCompose", "Header Back Button Clicked")
-                                    navController?.popBackStack()
-                                }),
-                            contentScale = ContentScale.Crop
-                        )
+                        Icon(imageVector = Icons.Filled.ArrowBackIosNew ,
+                            contentDescription = "Back",
+                            tint = Color.White,
+                            modifier = Modifier.clickable{ navController.popBackStack() })
+//                        Image(
+//                            painter = painterResource(id = R.drawable.ic_arrow_back),
+//                            contentDescription = stringResource(id = R.string.app_name),
+//                            modifier = Modifier
+//                                .size(30.dp)
+//                                .padding(5.dp)
+//                                .clickable(onClick = {
+//                                    Log.e("JetpackCompose", "Header Back Button Clicked")
+//                                    navController.popBackStack()
+//                                }),
+//                            contentScale = ContentScale.Crop
+//                        )
                     }
                     Text(
                         text = appBarTitle,

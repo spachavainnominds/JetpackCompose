@@ -29,20 +29,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.innominds.jetpackcompose.R
+import coil.compose.rememberImagePainter
 import com.innominds.jetpackcompose.theme.JetpackComposeTheme
 import com.innominds.jetpackcompose.ui.models.Users
 import com.innominds.jetpackcompose.ui.navigations.AppNavigationScreens
 import com.innominds.jetpackcompose.ui.screens.baseappbar.BaseAppBar
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -99,19 +98,23 @@ fun CreateContent(navController: NavController?) {
 }
 
 @Composable
-fun CreateProfile(modifier: Modifier, userLogo: Int) {
+fun CreateProfile(modifier: Modifier, userLogo: String) {
     Surface(
         modifier = modifier,
         shape = CircleShape,
-        border = BorderStroke(4.dp, Color.Gray),
+        border = BorderStroke(1.dp, Color.Gray),
         shadowElevation = 4.dp,
-        color = Color(245, 245, 245)//MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+//        color = Color(245, 245, 245)//MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
     ) {
+        Log.e("JetpackCompose", "User Logo: $userLogo" )
+        val painter = rememberImagePainter(
+            data = userLogo,
+        )
+
         Image(
-            painter = painterResource(id = userLogo),
-            contentDescription = stringResource(id = R.string.app_name),
-            modifier = Modifier.size(130.dp),
-            contentScale = ContentScale.Crop
+            painter = painter,
+            contentDescription = "User Logo",
+            modifier = Modifier.size(150.dp),
         )
     }
 }
@@ -190,7 +193,7 @@ private fun users(): ArrayList<Users> {
 private fun UsersList(list: ArrayList<Users>) {
     list.add(
         Users(
-           userLogo =  R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_02.jpg",
             userName = "Karthik Peddamallu",
             userRole = "Associate Manager",
             userEmail = "kpedamallu@innominds.com"
@@ -199,7 +202,7 @@ private fun UsersList(list: ArrayList<Users>) {
 
     list.add(
         Users(
-            userLogo = R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_01.jpg",
             userName = "Srikanth Gajulla",
             userRole = "Principle Engineer",
             userEmail = "sgajula@innominds.com"
@@ -207,7 +210,7 @@ private fun UsersList(list: ArrayList<Users>) {
     )
     list.add(
         Users(
-            R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_03.jpg",
             "Karthik Tiggura",
             "Quality Engineering",
             userEmail = "ktiyyagura@innominds.com"
@@ -215,7 +218,7 @@ private fun UsersList(list: ArrayList<Users>) {
     )
     list.add(
         Users(
-            R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_10.jpg",
             "Phani Gajulla",
             "Associate Manager",
             userEmail = "pgajula@innominds.com"
@@ -223,14 +226,15 @@ private fun UsersList(list: ArrayList<Users>) {
     )
     list.add(
         Users(
-            R.drawable.ic_user, "Mamatha Sheelam",
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_12.jpg",
+            "Mamatha Sheelam",
             "Principle Engineer",
             "msheelam@innominds.com"
         )
     )
     list.add(
         Users(
-            R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_11.jpg",
             "Purva Suresh Chaudhri",
             "Senior Engineer",
             "pchaudhari@innominds.com"
@@ -238,7 +242,7 @@ private fun UsersList(list: ArrayList<Users>) {
     )
     list.add(
         Users(
-            R.drawable.ic_user,
+            "https://img.photographyblog.com/reviews/kodak_pixpro_fz201/photos/kodak_pixpro_fz201_09.jpg",
             "Sudhakar Pachava",
             "Senior Engineer",
             "spachava@innominds.com"
@@ -246,6 +250,7 @@ private fun UsersList(list: ArrayList<Users>) {
     )
 }
 
+@OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun PortFolios(data: List<Users>, navController: NavController?) {
     Box {
@@ -263,9 +268,15 @@ fun PortFolios(data: List<Users>, navController: NavController?) {
                     border = BorderStroke(8.dp, color = MaterialTheme.colorScheme.surface),
                     onClick = {
                         Log.d("JetpackCompose", "Card Clicked...")
+                        // Encode to Base64
+                        val encodedString: String = Base64.UrlSafe.encode(item.userLogo.toByteArray())
+                        println("Encoded string: $encodedString")
+
+
+                        Log.d("JetpackCompose", "User Name: $encodedString")
                         navController?.navigate(
                             route = AppNavigationScreens.DetailsScreen.name
-                                    + "/${item.userName}" + "/${item.userRole}"+ "/${item.userEmail}"
+                                    + "/${item.userName}" + "/${item.userRole}"+ "/${item.userEmail}"+ "/${encodedString}"
                         )
                     }
                 ) {

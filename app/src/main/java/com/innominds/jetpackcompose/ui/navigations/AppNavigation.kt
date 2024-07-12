@@ -21,7 +21,7 @@ fun AppNavigation() {
             HomeScreen(navController = navController)
         }
 
-        composable(AppNavigationScreens.DetailsScreen.name + "/{name}" + "/{role}" + "/{email}",
+        composable(AppNavigationScreens.DetailsScreen.name + "/{name}" + "/{role}" + "/{email}" + "/{logo}",
             arguments = listOf(
                 navArgument(name = "name") {
                     type = NavType.StringType
@@ -31,13 +31,17 @@ fun AppNavigation() {
                 },
                 navArgument(name = "email") {
                     type = NavType.StringType
+                },
+                navArgument(name = "logo") {
+                    type = NavType.StringType
                 }
             )
         ) {  backStackEntry ->
             DetailsScreen(navController = navController,
                 backStackEntry.arguments?.getString("name"),
                 backStackEntry.arguments?.getString("role"),
-                backStackEntry.arguments?.getString("email")
+                backStackEntry.arguments?.getString("email"),
+                backStackEntry.arguments?.getString("logo")
             )
         }
 
